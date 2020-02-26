@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-kong-oauth2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "strapi plugin for kong oauth2 authentication",
   "main": "index.js",
   "scripts": {

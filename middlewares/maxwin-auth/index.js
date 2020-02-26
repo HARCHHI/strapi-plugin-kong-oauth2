@@ -8,14 +8,14 @@ const _ = require('lodash');
 
 module.exports = () => ({
   beforeInitialize() {
-    strapi.config.middleware.load.before.unshift('maxwin-auth');
+    strapi.config.middleware.load.before.unshift('kong-oauth2');
   },
 
   initialize() {
     _.forEach(strapi.admin.config.routes, (value) => {
       if (_.get(value.config, 'policies')) {
         value.config.policies.unshift(
-          'plugins.maxwin-auth.auth',
+          'plugins.kong-oauth2.auth',
         );
       }
     });
@@ -23,7 +23,7 @@ module.exports = () => ({
     _.forEach(strapi.config.routes, (value) => {
       if (_.get(value.config, 'policies')) {
         value.config.policies.unshift(
-          'plugins.maxwin-auth.auth',
+          'plugins.kong-oauth2.auth',
         );
       }
     });
@@ -33,7 +33,7 @@ module.exports = () => ({
         _.forEach(plugin.config.routes, (value) => {
           if (_.get(value.config, 'policies')) {
             value.config.policies.unshift(
-              'plugins.maxwin-auth.auth',
+              'plugins.kong-oauth2.auth',
             );
           }
         });

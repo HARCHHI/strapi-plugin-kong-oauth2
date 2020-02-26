@@ -10,6 +10,11 @@
     "name": "Kong-auth",
     "required": true
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:HARCHHI/strapi-plugin-kong-oauth2.git"
+  },
+  "homepage": "https://github.com/HARCHHI/strapi-plugin-kong-oauth2",
   "author": "",
   "license": "MIT",
   "dependencies": {

@@ -9,11 +9,12 @@ module.exports = async (ctx, next) => {
   }
 
   if (!KONG_ADMIN_HOST || !KONG_ADMIN_PORT) {
-    strapi.log.debug('Kong admin configuration missing');
+    strapi.log.debug('kong-oauth2: Kong admin configuration missing');
     return next();
   }
 
   const parts = ctx.request.header.authorization.split(' ');
+
   if (parts.length === 2) {
     const scheme = parts[0];
     const credentials = parts[1];
@@ -26,15 +27,17 @@ module.exports = async (ctx, next) => {
     );
   }
 
+  if (token === '') return next();
+
   try {
-    await strapi.plugins['maxwin-auth'].services['kong-admin'].validateToken(token, userName);
+    await strapi.plugins['kong-oauth2'].services['kong-admin'].validateToken(token, userName);
   } catch (error) {
-    strapi.log.debug(`kong-auth: ${error.message}`);
+    strapi.log.debug(`kong-oauth2: ${error.message}`);
     return next();
   }
 
-  const jwtToken = await strapi.plugins['maxwin-auth'].services.jwt.issue(userId, userName);
+  const jwtToken = await strapi.plugins['kong-oauth2'].services.jwt.issue(userId, userName);
 
-  ctx.request.header.authorization = `bearer ${jwtToken}`;
+  ctx.request.header.authorization = `Bearer ${jwtToken}`;
   await next();
 };
